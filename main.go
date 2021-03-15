@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/cody6750/RTXBot/discordbot"
+	discordbot "github.com/cody6750/RTXBot/discord-bot"
 )
 
 func main() {
