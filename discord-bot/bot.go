@@ -30,6 +30,7 @@ func BotInit() {
 	}
 
 	// Register the messageCreate func as a callback for MessageCreate events.
+	discord.AddHandler(functions.Ready)
 	discord.AddHandler(functions.MessageCreate)
 
 	// In this example, we only care about receiving message events.

@@ -1,16 +1,16 @@
 package functions
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
 )
 
-// var (
-// 	r   io.Reader
-// 	err error
-// )
+var (
+	mochi_gif string = "/Users/tealiumemployee/github/DiscordBots/media-library/Mochi.gif"
+	err       error
+)
 
 // This function will be called (due to AddHandler above) every time a new
 // message is created on any channel that the authenticated bot has access to.
@@ -35,10 +35,9 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// If the message is "Bye" or "Goodnight" reply with GIF and message
 	if m.Content == "Bye" || m.Content == "Goodnight" {
-		r, err := os.Open("/Users/tealiumemployee/github/DiscordBots/media-library/Mochi.gif")
+		r, err := os.Open(mochi_gif)
 		if err != nil {
-			fmt.Print("Error")
-			return
+			log.Fatalf("Invalid bot parameters: %v", err)
 		}
 		s.ChannelFileSendWithMessage(m.ChannelID, "BYE!", "Mochi.gif", r)
 	}
