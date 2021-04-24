@@ -1,4 +1,4 @@
-package functions
+package botFunctions
 
 import (
 	"log"
@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	mochi_gif string = "/Users/tealiumemployee/github/DiscordBots/media-library/Mochi.gif"
-	err       error
+	byeGifFilePath string = "mediaLibrary/Bye.gif"
+	err            error
 )
 
 // This function will be called (due to AddHandler above) every time a new
@@ -35,10 +35,16 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// If the message is "Bye" or "Goodnight" reply with GIF and message
 	if m.Content == "Bye" || m.Content == "Goodnight" {
-		r, err := os.Open(mochi_gif)
+		r, err := os.Open(byeGifFilePath)
 		if err != nil {
 			log.Fatalf("Invalid bot parameters: %v", err)
 		}
 		s.ChannelFileSendWithMessage(m.ChannelID, "BYE!", "Mochi.gif", r)
+	}
+
+	if m.Content == "!Shutdown" {
+		s.Close()
+		log.Printf("Shutting down Mochi Both :(")
+		return
 	}
 }
