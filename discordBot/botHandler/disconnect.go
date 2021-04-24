@@ -1,4 +1,4 @@
-package botHandler
+package bothandler
 
 import (
 	"fmt"
@@ -9,6 +9,7 @@ import (
 	botTools "github.com/cody6750/RTXBot/discordBot/botTools"
 )
 
+//Disconnect ..
 func Disconnect(s *discordgo.Session, m *discordgo.Disconnect) {
 	r, err := os.Open(byeGifFilePath)
 	if err != nil {

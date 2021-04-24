@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	botHandler "github.com/cody6750/RTXBot/discordBot/botHandler"
+	"github.com/cody6750/RTXBot/discordBot/bothandler"
 )
 
 var (
@@ -30,10 +30,10 @@ func BotInit() {
 	}
 
 	// Register the messageCreate func as a callback for MessageCreate events.
-	discord.AddHandler(botHandler.Ready)
-	discord.AddHandler(botHandler.MessageCreate)
-	discord.AddHandler(botHandler.Disconnect)
-	discord.AddHandler(botHandler.SlashCommands)
+	discord.AddHandler(bothandler.Ready)
+	discord.AddHandler(bothandler.MessageCreate)
+	discord.AddHandler(bothandler.Disconnect)
+	discord.AddHandler(bothandler.SlashCommands)
 
 	// In this example, we only care about receiving message events.
 	discord.Identify.Intents = discordgo.IntentsGuildMessages

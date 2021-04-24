@@ -1,4 +1,4 @@
-package botFunctions
+package bothandler
 
 import (
 	"log"
@@ -12,7 +12,7 @@ var (
 	err            error
 )
 
-// This function will be called (due to AddHandler above) every time a new
+// MessageCreate .. This function will be called (due to AddHandler above) every time a new
 // message is created on any channel that the authenticated bot has access to.
 func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 
@@ -45,6 +45,6 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Content == "!Shutdown" {
 		s.Close()
 		log.Printf("Shutting down Mochi Both :(")
-		return
+		os.Exit(1)
 	}
 }

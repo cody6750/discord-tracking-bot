@@ -1,4 +1,4 @@
-package botFunctions
+package bothandler
 
 import (
 	"log"
@@ -9,10 +9,11 @@ import (
 )
 
 var (
-	channelId               string
+	channelID               string
 	introductionGifFilePath string = "mediaLibrary/Introduction.gif"
 )
 
+//Ready ..
 func Ready(s *discordgo.Session, m *discordgo.Ready) {
 	for _, guild := range s.State.Guilds {
 
