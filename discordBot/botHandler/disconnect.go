@@ -1,4 +1,4 @@
-package botFunctions
+package botHandler
 
 import (
 	"fmt"

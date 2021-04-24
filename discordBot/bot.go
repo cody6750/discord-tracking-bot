@@ -33,6 +33,7 @@ func BotInit() {
 	discord.AddHandler(botHandler.Ready)
 	discord.AddHandler(botHandler.MessageCreate)
 	discord.AddHandler(botHandler.Disconnect)
+	discord.AddHandler(botHandler.SlashCommands)
 
 	// In this example, we only care about receiving message events.
 	discord.Identify.Intents = discordgo.IntentsGuildMessages
