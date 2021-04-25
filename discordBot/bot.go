@@ -9,7 +9,7 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	bothandler "github.com/cody6750/RTXBot/discordBot/botHandler"
+	bothandler "github.com/cody6750/discordbot/discordBot/botHandler"
 )
 
 var (
