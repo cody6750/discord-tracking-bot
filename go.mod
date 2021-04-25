@@ -1,4 +1,4 @@
-module github.com/cody6750/RTXBot
+module github.com/cody6750/discordbot
 
 go 1.16
 

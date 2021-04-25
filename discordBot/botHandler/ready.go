@@ -5,7 +5,7 @@ import (
 	"os"
 
 	"github.com/bwmarrin/discordgo"
-	botTools "github.com/cody6750/RTXBot/discordBot/botTools"
+	botTools "github.com/cody6750/discordbot/discordBot/botTools"
 )
 
 var (
