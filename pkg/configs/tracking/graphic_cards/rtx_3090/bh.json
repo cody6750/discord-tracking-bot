@@ -1,0 +1,64 @@
+{
+    "RootURL" :"https://www.bhphotovideo.com/c/search?Ntt=RTX%203090&N=0&InitialSearch=yes&sts=ma",
+    "ScrapeItemConfiguration": [ 
+        {
+            "ItemName" : "Graphics Card",
+            "ItemToGet" :  {
+                "Tag" : "div",
+                "Attribute" : "data-selenium",
+                "AttributeValue" : "miniProductPage"
+            },
+            "ItemDetails" : {
+                "title" : {
+                    "Tag": "span",
+                    "Attribute": "data-selenium",
+                    "AttributeValue" : "miniProductPageProductName"
+                },
+                "link" : {
+                    "Tag": "a",
+                    "Attribute": "data-selenium",
+                    "AttributeValue" : "miniProductPageProductNameLink",
+                    "AttributeToGet": "href",
+                    "FormatAttributeConfiguration": {
+                        "PrefixExist":    "/",
+                        "PrefixToAdd":    "http://bhphotovideo.com"
+                    }
+                },                
+                "price" : {
+                    "Tag": "span",
+                    "Attribute": "data-selenium",
+                    "AttributeValue" : "uppedDecimalPriceFirst"
+                }
+            }
+        }
+    ],
+    "ScrapeURLConfiguration": [
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "////",
+                "PrefixToRemove": "////",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "///",
+                "PrefixToRemove": "///",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "//",
+                "PrefixToRemove": "//",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "/",
+                "PrefixToAdd":    "http://bhphotovideo.com"
+            }
+        }                        
+    ]
+}

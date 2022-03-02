@@ -5,12 +5,16 @@ import (
 	"os"
 
 	"github.com/bwmarrin/discordgo"
-	botTools "github.com/cody6750/discordbot/discordBot/botTools"
+	botTools "github.com/cody6750/discordbot/pkg/tools"
 )
 
 var (
 	channelID               string
-	introductionGifFilePath string = "mediaLibrary/Introduction.gif"
+	introductionGifFilePath string = "media/Introduction.gif"
+	guildCategory                  = map[string]string{
+		"Tracking Graphics Cards": "graphic_cards",
+		"Tracking Consoles":       "consoles",
+	}
 )
 
 //Ready ..
@@ -23,7 +27,6 @@ func Ready(s *discordgo.Session, m *discordgo.Ready) {
 			if channel.Type != discordgo.ChannelTypeGuildText {
 				continue
 			}
-
 			r, err := os.Open(introductionGifFilePath)
 
 			if err != nil {

@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/bwmarrin/discordgo"
-	botTools "github.com/cody6750/discordbot/discordBot/botTools"
+	botTools "github.com/cody6750/discordbot/pkg/tools"
 )
 
 //Disconnect ..
