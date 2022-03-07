@@ -1,0 +1,69 @@
+{
+    "RootURL" : "https://www.amazon.com/s?k=RTX+3050&crid=1MUMO1305E2MB&sprefix=rtx+305%2Caps%2C153&ref=nb_sb_noss",
+    "ScrapeItemConfiguration": [ 
+        {
+            "ItemName" : "Graphics Card",
+            "ItemToGet" :  {
+                "Tag" : "div",
+                "Attribute" : "data-component-type",
+                "AttributeValue" : "s-search-result"
+            },
+            "ItemDetails" : {
+                "title" : {
+                    "Tag": "span",
+                    "Attribute": "class",
+                    "AttributeValue" : "a-size-medium a-color-base a-text-normal"
+                },
+                "link" : {
+                    "Tag": "a",
+                    "Attribute": "class",
+                    "AttributeValue" : "a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal",
+                    "AttributeToGet": "href",
+                    "FormatAttributeConfiguration": {
+                        "PrefixExist":    "/",
+                        "PrefixToAdd":    "http://amazon.com"
+                    }
+                },
+                "price" : {
+                    "Tag": "span",
+                    "Attribute": "class",
+                    "AttributeValue" : "a-price-whole",
+                    "FilterConfiguration": {
+                        "IsLessThan" : 475,
+                        "IsGreaterThan" : 400,
+                        "ConvertStringToNumber" : "true"
+                    }  
+                }
+            }
+        }
+    ],
+    "ScrapeURLConfiguration": [
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "////",
+                "PrefixToRemove": "////",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "///",
+                "PrefixToRemove": "///",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "//",
+                "PrefixToRemove": "//",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "/",
+                "PrefixToAdd":    "http://amazon.com"
+            }
+        }                        
+    ]
+}
