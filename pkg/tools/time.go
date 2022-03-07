@@ -1,4 +1,4 @@
-package botTools
+package tools
 
 import (
 	"time"

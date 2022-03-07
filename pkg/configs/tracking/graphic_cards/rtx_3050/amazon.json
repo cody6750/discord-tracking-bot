@@ -29,12 +29,10 @@
                     "Attribute": "class",
                     "AttributeValue" : "a-price-whole",
                     "FilterConfiguration": {
-                        "Contains" : "",
-                        "IsEqualTo" : "",
-                        "IsLessThan" : "",
-                        "IsGreaterThan" : "",
-                        "IsNot" : "" 
-                    }
+                        "IsLessThan" : 475,
+                        "IsGreaterThan" : 400,
+                        "ConvertStringToNumber" : "true"
+                    }  
                 }
             }
         }

@@ -14,16 +14,15 @@ func GetChannels(s *discordgo.Session, channelType string) []*discordgo.Channel 
 		for _, channel := range channels {
 			if strings.Contains(strings.ToLower(channel.Name), channelType) {
 				getChannels = append(getChannels, channel)
-
 			}
 		}
 	}
 	return getChannels
 }
 
-//GetDebugChannel ...
-func GetDebugChannel(s *discordgo.Session) *discordgo.Channel {
-	c := GetChannels(s, "debug")
+//GetChannel ...
+func GetChannel(s *discordgo.Session, channelName string) *discordgo.Channel {
+	c := GetChannels(s, channelName)
 	if len(c) > 0 {
 		return c[0]
 	}

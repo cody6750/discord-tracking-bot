@@ -27,7 +27,12 @@
                 "price" : {
                     "Tag": "span",
                     "Attribute": "data-selenium",
-                    "AttributeValue" : "uppedDecimalPriceFirst"
+                    "AttributeValue" : "uppedDecimalPriceFirst",
+                    "FilterConfiguration": {
+                        "IsLessThan" : 2300,
+                        "IsGreaterThan" : 900,
+                        "ConvertStringToNumber" : "true"
+                    }                      
                 }
             }
         }

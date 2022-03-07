@@ -6,8 +6,8 @@ import (
 )
 
 //CallAPI ...
-func CallAPI(payload string) (*http.Response, error) {
-	req, err := http.NewRequest("GET", "http://localhost:9090/crawler/item", strings.NewReader(payload))
+func CallAPI(httpMethod, url, payload string) (*http.Response, error) {
+	req, err := http.NewRequest(httpMethod, url, strings.NewReader(payload))
 	if err != nil {
 		return nil, err
 	}

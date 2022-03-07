@@ -27,7 +27,12 @@
                 "price" : {
                     "Tag": "span",
                     "Attribute": "class",
-                    "AttributeValue" : "a-price-whole"
+                    "AttributeValue" : "a-price-whole",
+                    "FilterConfiguration": {
+                        "IsLessThan" : 1700,
+                        "IsGreaterThan" : 900,
+                        "ConvertStringToNumber" : "true"
+                    }                         
                 }
             }
         }

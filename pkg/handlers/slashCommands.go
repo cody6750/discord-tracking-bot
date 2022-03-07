@@ -1,4 +1,4 @@
-package bothandler
+package handlers
 
 import (
 	"fmt"
