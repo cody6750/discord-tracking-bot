@@ -9,6 +9,7 @@ import (
 var (
 	consoleChannel      string = "bot_console"
 	metricsChannel      string = "metrics"
+	logChannel          string = "log"
 	introductionGifFile string = "Introduction.gif"
 )
 

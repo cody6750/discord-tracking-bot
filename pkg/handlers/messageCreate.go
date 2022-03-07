@@ -51,19 +51,18 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		if reflect.DeepEqual(currentMetrics, Metrics{}) {
 			s.ChannelMessageSend(consoleChannel.ID, "No current metrics available")
 		}
-		s.ChannelMessageSend(consoleChannel.ID, generateMetricsOutput(&currentMetrics))
+		s.ChannelMessageSend(consoleChannel.ID, GenerateMetricsOutput(currentMetrics))
 	case content == "!total_metrics":
 		if reflect.DeepEqual(totalMetrics, Metrics{}) {
 			s.ChannelMessageSend(consoleChannel.ID, "No total metrics available")
 		}
-		s.ChannelMessageSend(consoleChannel.ID, generateMetricsOutput(&totalMetrics))
+		s.ChannelMessageSend(consoleChannel.ID, GenerateMetricsOutput(totalMetrics))
 	case content == "!shutdown":
 		ShutDownMessage(consoleChannel, s)
 		s.Close()
 		os.Exit(1)
 
 	}
-	return
 }
 
 func StartUpMessage(channel *discordgo.Channel, s *discordgo.Session) {

@@ -4,7 +4,7 @@ var (
 	currentStatus string = "not set"
 )
 
-func EnableStatus(status string) string {
+func SetStatus(status string) string {
 	currentStatus = status
 	return currentStatus
 }

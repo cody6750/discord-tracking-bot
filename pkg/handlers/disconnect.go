@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -17,9 +16,9 @@ func Disconnect(s *discordgo.Session, m *discordgo.Disconnect) {
 			log.Fatal("Could not open file")
 		}
 		formattedTime := botTools.CurrentTime()
-		_, err = s.ChannelFileSendWithMessage("", "Mochi bot has shut down at : "+formattedTime, "Bye.gif", r)
+		_, err = s.ChannelFileSendWithMessage(consoleChannel, "Mochi bot has shut down at : "+formattedTime, "Bye.gif", r)
 		if err != nil {
-			fmt.Printf("Error: %v", err)
+			log.Printf("Error: %v", err)
 		}
 	}
 }

@@ -5,6 +5,6 @@ var (
 )
 
 //EnableMedia
-func EnableHandlerMedia(path string) {
+func SetHandlerMediaPath(path string) {
 	mediaPath = path
 }
