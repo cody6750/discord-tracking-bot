@@ -104,7 +104,7 @@ func ShutDownMessage(channel *discordgo.Channel, s *discordgo.Session) {
 
 	} else {
 		formatedTime := botTools.CurrentTime()
-		_, err = s.ChannelMessageSend(channel.ID, "Mochi bot has shut down at : "+formatedTime)
+		_, err = s.ChannelMessageSend(channel.ID, "Mochi bot has shut down at: "+formatedTime)
 		if err != nil {
 			log.Fatal("Error sending initial message")
 
