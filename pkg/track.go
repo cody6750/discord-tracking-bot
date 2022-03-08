@@ -15,9 +15,11 @@ import (
 )
 
 var (
-	//TotalMetrics ...
-	TotalMetrics          handlers.Metrics = handlers.Metrics{URL: "Total Metrics for Crawl"}
-	TrackingChannelPrefix                  = "tracking_"
+	//TotalMetrics represents the total metrics within an REST API call.
+	TotalMetrics handlers.Metrics = handlers.Metrics{URL: "Total Metrics for Crawl"}
+
+	//TrackingChannelPrefix used to retrive the tracking channels.
+	TrackingChannelPrefix = "tracking_"
 )
 
 type stop struct {
