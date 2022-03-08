@@ -68,7 +68,6 @@ func (t *TrackingBot) TrackItemChannels(s *discordgo.Session, channelsToTrack []
 			}
 			handlers.SetTotalMetrics(handlers.Metrics(TotalMetrics))
 			s.ChannelMessageSend(t.discordMetricsChannel.ID, handlers.GenerateMetricsOutput(handlers.Metrics(TotalMetrics)))
-			return
 		}
 		time.Sleep(time.Duration(int64(delay)) * time.Second)
 	}
