@@ -37,20 +37,26 @@ type URL struct {
 }
 
 var (
+	//currentMetrics represents the metrics recieved from the current REST API call.
 	currentMetrics Metrics
-	totalMetrics   Metrics
+
+	//totalMetrics represents the metrics recieved from the all of the REST API calls.
+	totalMetrics Metrics
 )
 
+//SetCurrentMetrics used to pass in the current metrics from the trackingbot package to avoid circular dependency
 func SetCurrentMetrics(m Metrics) Metrics {
 	currentMetrics = m
 	return currentMetrics
 }
 
+//SetTotalMetrics used to pass in the total metrics from the trackingbot package to avoid circular dependency
 func SetTotalMetrics(m Metrics) Metrics {
 	totalMetrics = m
 	return totalMetrics
 }
 
+//AppendMetrics adds two metric sturcts.
 func AppendMetrics(m, a *Metrics) {
 	m.DuplicatedUrlsFound += a.DuplicatedUrlsFound
 	m.ItemsFound += a.ItemsFound
@@ -58,6 +64,7 @@ func AppendMetrics(m, a *Metrics) {
 	m.UrlsVisited += a.UrlsVisited
 }
 
+//GenerateMetricsOutput generates formatted outputs given a metrics struct.
 func GenerateMetricsOutput(m Metrics) string {
 	Header := "Scraping Metrics :" + m.URL
 	duplicateUrlsFound := "Duplicate Urls Found: " + strconv.Itoa(m.DuplicatedUrlsFound)

@@ -6,6 +6,8 @@ import (
 	"strconv"
 )
 
+// getEnvVariables allows users to override the values within the tracking bot options via environment variables.
+// It retrives the environment variables set at runtime and within the Docker container.
 func (t *TrackingBot) getEnvVariables() {
 	var err error
 	t.logger.Info("Getting environment variables")
@@ -90,6 +92,7 @@ func (t *TrackingBot) getEnvVariables() {
 
 }
 
+// checkEnvVariables ensures that certain environment variables are set properly.
 func (t *TrackingBot) checkEnvVariables() {
 	t.logger.Info("Checking environment variables")
 	if t.options.DiscordToken == "" {
@@ -99,6 +102,7 @@ func (t *TrackingBot) checkEnvVariables() {
 
 }
 
+// getEnvBool converts string environment variables to booleans.
 func getEnvBool(envVar string) (bool, error) {
 	s := os.Getenv(envVar)
 	if s == "" {
@@ -111,6 +115,7 @@ func getEnvBool(envVar string) (bool, error) {
 	return v, nil
 }
 
+// getEnvBool converts string environment variables to integers.
 func getEnvInt(envVar string) (int, error) {
 	s := os.Getenv(envVar)
 	if s == "" {

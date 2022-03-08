@@ -16,30 +16,56 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// channels
+// channels contains all of the channels used by the tracking bot. These are initialized
+// upon the creation of the tracking bot object
 type channels struct {
 	stopTracking  chan struct{}
 	startTracking chan struct{}
 }
 
-// TrackingBot ...
+// TrackingBot represents all of the necessary dependencies required to run the tracking
+// bot. The tracking bot itself is designed to run as a microservice on AWS with feature
+// flags that allow for local testing using docker or the go exectuable.
 type TrackingBot struct {
-	discordSession        *discordgo.Session
-	session               *session.Session
-	secretsSvc            *secretsmanager.SecretsManager
-	logger                *logrus.Logger
-	options               *options.Options
-	channels              *channels
-	discordLogChannel     *discordgo.Channel
+	// discordSession established a session with Discord. Requires an API token
+	// which is set using options.DiscordToken or DISCORD_TOKEN environment variable.
+	discordSession *discordgo.Session
+
+	// session established a session with AWS. Requires AWS to be configured on the
+	// machine. The session is created through initAWS which is set using options.AWSMaxRetries
+	// and options.AWSRegion or AWS_MAX_RETRIES and AWS_REGION environent variables.
+	session *session.Session
+
+	// secretsSvc establishes a session with AWS Secrets manager using the AWS session.
+	// Allows us to get the discord token from AWS secrets.
+	secretsSvc *secretsmanager.SecretsManager
+
+	// logger represnts the structured logger used within the tracking bot and discord handlers
+	logger *logrus.Logger
+
+	// options represents the configurable tracking bot options. This sturct allows users to
+	// override the default options. Users can tailor the tracking bot to their needs based on
+	// the running platform.
+	options *options.Options
+
+	// channels includes all of the channels used within the tracking bot. These have different functionalities.
+	channels *channels
+
+	// discordLogChannel represents the discord channel that is used to output logs.
+	discordLogChannel *discordgo.Channel
+
+	// discordMetricsChannel represnts the discord channel that is use to output metrics.
 	discordMetricsChannel *discordgo.Channel
 }
 
-//NewTrackingBot ...
+// NewTrackingBot creates an instance of the tracking bot with the default settings.
+// Environment variables can be used to override the default settings.
 func NewTrackingBot() *TrackingBot {
 	return NewTrackingBotWithOptions(options.New())
 }
 
-//NewTrackingBotWithOptions ...
+// NewTrackingBotWithOptions creates an instance of the tracking bot with custom settings.
+// Environment variables will override the custom settings.
 func NewTrackingBotWithOptions(option *options.Options) *TrackingBot {
 	bot := &TrackingBot{}
 	bot.options = option
@@ -54,6 +80,9 @@ func NewTrackingBotWithOptions(option *options.Options) *TrackingBot {
 	return bot
 }
 
+// initBot is used to bootstrap the bot. It initializes all of the dependencies and creates the necessary connections
+// with 3rd party services such as Discord and AWS. The environment variables are gathered and
+// set. All handlers are added to the discord session, and a websocket connection is created.
 func (t *TrackingBot) initBot() {
 	var err error
 	t.logger.Info("Discord bot initializing")
@@ -99,7 +128,10 @@ func (t *TrackingBot) initBot() {
 
 }
 
-//Run initializes and runs the discord bot
+// Run serves as the entrypoint to the tracking bot. It needs only to be called once per session.
+// Immediatley after the bot is initialized, the bot will start tracking. Once the bot is live,
+// commands will be sent to the bot from the handlers, and channels. If there are any signal interrupts,
+// the bot will shutdown.
 func (t *TrackingBot) Run() {
 	t.initBot()
 	handlers.SetStatus("Idle")
@@ -117,6 +149,17 @@ func (t *TrackingBot) Run() {
 	t.discordSession.Close()
 }
 
+// startTracking begins the tracking process within the tracking bot. All of the tracking channels within
+// the discord server will be intialized. The TrackItemChannels function is wrapped inside of a goroutine
+// anonymous function which allows the execution of the code to be asynchronous. This allows signals to be sent
+// to the stopTracking channel, which is used to stop TrackItemChannels at any moment.
+//
+//  parameters:
+//
+//	channelsToTrack string : The prefix of discord channels to track.
+//
+//  trackingConfigPath string : The path of the tracking file configs within the file system. These files are used
+//  to define what to track on a given channel.
 func (t *TrackingBot) startTracking(channelsToTrack, trackingConfigPath string) {
 	functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Starting to track channels")
 	handlers.SetStatus("Running, currently tracking channels")
@@ -133,6 +176,7 @@ func (t *TrackingBot) startTracking(channelsToTrack, trackingConfigPath string) 
 	}
 }
 
+// monitoringChannelSignals is used to act upon a signal that is recieved from the handlers.
 func (t *TrackingBot) monitoringChannelSignals() {
 	for {
 		select {
@@ -142,14 +186,12 @@ func (t *TrackingBot) monitoringChannelSignals() {
 	}
 }
 
-func (t *TrackingBot) StartTracking() {
-	t.channels.startTracking <- struct{}{}
-}
-
+// StopTracking is used to stop the tracking bot via a signal on the stopTracking channel.
 func (t *TrackingBot) StopTracking() {
 	t.channels.stopTracking <- struct{}{}
 }
 
+// initAWS creates the required AWS session and services.
 func (t *TrackingBot) initAWS(maxRetries int, region string) {
 	configs := aws.Config{
 		Region:     aws.String(region),

@@ -7,7 +7,8 @@ import (
 	botTools "github.com/cody6750/discordbot/pkg/tools"
 )
 
-//Disconnect ..
+// Disconnect serves as the disconnect handler. When discord is disconnecting, this function gets executed.
+// A shutdown message will be called within the console channel.
 func Disconnect(s *discordgo.Session, m *discordgo.Disconnect) {
 	if mediaPath != "" {
 		r, err := os.Open(byeGifFile)

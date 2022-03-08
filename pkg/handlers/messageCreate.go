@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	byeGifFile        string = "Bye.gif"
-	availableCommands        = map[string]string{
+	//availableCommands all the available commands within the Discord console.
+	availableCommands = map[string]string{
 		"!help":           "Displays all avaliable commands within the console channel",
 		"!metrics":        "Displays the metrics for the current scrape",
 		"!shutdown":       "Shuts down the bot",
@@ -109,6 +109,7 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
+// StartUpMessage displays message within the given channel indicating that the bot has been intialized.
 func StartUpMessage(channel *discordgo.Channel, s *discordgo.Session) {
 	if mediaPath != "" {
 		r, err := os.Open(mediaPath + introductionGifFile)
@@ -133,6 +134,7 @@ func StartUpMessage(channel *discordgo.Channel, s *discordgo.Session) {
 	}
 }
 
+// ShutDownMessage displays message within the given channel indicating that the bot has been shut down.
 func ShutDownMessage(channel *discordgo.Channel, s *discordgo.Session) {
 	if mediaPath != "" {
 		r, err := os.Open(mediaPath + byeGifFile)
@@ -157,6 +159,7 @@ func ShutDownMessage(channel *discordgo.Channel, s *discordgo.Session) {
 	}
 }
 
+// ShutDownMessage displays message within the given channel displaying all of the commands available within the Discord console.
 func helpMessage(channel *discordgo.Channel, s *discordgo.Session) string {
 	helperHeader := "```Commands available for the tracking bot:\nCommand:       Description:\n"
 	body := printMap(availableCommands)
@@ -165,6 +168,7 @@ func helpMessage(channel *discordgo.Channel, s *discordgo.Session) string {
 	return helpMessage
 }
 
+// printMap pretty prints a map of strings.
 func printMap(m map[string]string) string {
 	var maxLenKey int
 	for k, _ := range m {

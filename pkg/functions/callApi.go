@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-//CallAPI ...
+//CallAPI makes an REST API call to the given url.
 func CallAPI(httpMethod, url, payload string) (*http.Response, error) {
 	req, err := http.NewRequest(httpMethod, url, strings.NewReader(payload))
 	if err != nil {

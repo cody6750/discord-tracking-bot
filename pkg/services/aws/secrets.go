@@ -9,7 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
-//GetSecret ...
+//GetSecret retrives secret values from AWS Secrets.
 func GetSecret(secretsSvc *secretsmanager.SecretsManager, secretPath string) (string, error) {
 	input := secretsmanager.GetSecretValueInput{
 		SecretId: aws.String(secretPath),
