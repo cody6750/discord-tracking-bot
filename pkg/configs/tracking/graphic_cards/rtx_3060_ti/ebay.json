@@ -1,0 +1,65 @@
+{
+    "RootURL" :"https://www.ebay.com/sch/i.html?_from=R40&_trksid=p2334524.m570.l1313&_nkw=rtx+3060+ti+graphics+card&_sacat=0&LH_TitleDesc=0&_odkw=rtx+3060+graphics+card&_osacat=0&LH_BIN=1&_sop=15",
+    "ScrapeItemConfiguration": [ 
+        {
+            "ItemName" : "Graphics Card",
+            "ItemToGet" :  {
+                "Tag" : "li",
+                "Attribute" : "class",
+                "AttributeValue" : "s-item s-item__pl-on-bottom s-item--watch-at-corner"
+            },
+            "ItemDetails" : {
+                "title" : {
+                    "Tag": "h3",
+                    "Attribute": "class",
+                    "AttributeValue" : "s-item__title"
+                },
+                "link" : {
+                    "Tag": "a",
+                    "Attribute": "class",
+                    "AttributeValue" : "s-item__link",
+                    "AttributeToGet": "href"
+                },  
+                "price" : {
+                    "Tag": "span",
+                    "Attribute": "class",
+                    "AttributeValue" : "s-item__price",
+                    "FilterConfiguration": {
+                        "IsLessThan" : 720,
+                        "IsGreaterThan" : 400,
+                        "ConvertStringToNumber" : "true"
+                    }                    
+                }
+            }
+        }
+    ],
+    "ScrapeURLConfiguration": [
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "////",
+                "PrefixToRemove": "////",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "///",
+                "PrefixToRemove": "///",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "//",
+                "PrefixToRemove": "//",
+                "PrefixToAdd":    "http://"
+            }
+        },
+        {
+            "FormatURLConfiguration": {
+                "PrefixExist":    "/",
+                "PrefixToAdd":    "http://ebay.com"
+            }
+        }                        
+    ]
+}
