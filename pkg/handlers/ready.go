@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"log"
-
 	"github.com/bwmarrin/discordgo"
 )
 
@@ -23,10 +21,6 @@ func Ready(s *discordgo.Session, m *discordgo.Ready) {
 			}
 			if channel.Name == consoleChannel {
 				StartUpMessage(channel, s)
-				if err != nil {
-					log.Fatal("Error sending initial message")
-				}
-
 			}
 		}
 	}

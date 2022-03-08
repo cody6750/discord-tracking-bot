@@ -14,13 +14,14 @@ import (
 
 var (
 	byeGifFile        string = "Bye.gif"
-	err               error
-	availableCommands = map[string]string{
-		"!help":          "Displays all avaliable commands within the console channel",
-		"!status":        "Displays the current status for the tracking bot",
-		"!metrics":       "Displays the metrics for the current scrape",
-		"!total_metrics": "Displays the total metrics for the web crawl",
-		"!shutdown":      "Shuts down the bot",
+	availableCommands        = map[string]string{
+		"!help":           "Displays all avaliable commands within the console channel",
+		"!metrics":        "Displays the metrics for the current scrape",
+		"!shutdown":       "Shuts down the bot",
+		"!status":         "Displays the current status for the tracking bot",
+		"!start_tracking": "Starts tracking bot using tracking configs",
+		"!stop_tracking":  "Stops tracking bot",
+		"!total_metrics":  "Displays the total metrics for the web crawl",
 	}
 )
 
@@ -39,29 +40,72 @@ func MessageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	switch {
 	case content == "!help":
 		helpMessage(consoleChannel, s)
+
 	case content == "!status":
-		s.ChannelMessageSend(consoleChannel.ID, "Current Status :"+currentStatus)
+		_, err := s.ChannelMessageSend(consoleChannel.ID, "Current Status :"+currentStatus)
+		if err != nil {
+			logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+			return
+		}
+
 	case content == "!bye" || content == "!goodnight":
 		r, err := os.Open(byeGifFile)
 		if err != nil {
-			log.Fatalf("Invalid bot parameters: %v", err)
+			logger.WithError(err).Error("Could not open file")
+			return
 		}
-		s.ChannelFileSendWithMessage(m.ChannelID, "BYE!", "Mochi.gif", r)
+
+		_, err = s.ChannelFileSendWithMessage(m.ChannelID, "BYE!", "Mochi.gif", r)
+		if err != nil {
+			logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+			return
+		}
+
 	case content == "!metrics":
 		if reflect.DeepEqual(currentMetrics, Metrics{}) {
-			s.ChannelMessageSend(consoleChannel.ID, "No current metrics available")
+			_, err := s.ChannelMessageSend(consoleChannel.ID, "No current metrics available")
+			if err != nil {
+				logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+				return
+			}
 		}
-		s.ChannelMessageSend(consoleChannel.ID, GenerateMetricsOutput(currentMetrics))
+		_, err := s.ChannelMessageSend(consoleChannel.ID, GenerateMetricsOutput(currentMetrics))
+		if err != nil {
+			logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+			return
+		}
+
 	case content == "!total_metrics":
 		if reflect.DeepEqual(totalMetrics, Metrics{}) {
-			s.ChannelMessageSend(consoleChannel.ID, "No total metrics available")
+			_, err := s.ChannelMessageSend(consoleChannel.ID, "No total metrics available")
+			if err != nil {
+				logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+				return
+			}
 		}
+
 		s.ChannelMessageSend(consoleChannel.ID, GenerateMetricsOutput(totalMetrics))
+
+	case content == "!start_tracking":
+		startTracking <- struct{}{}
+		_, err := s.ChannelMessageSend(consoleChannel.ID, "Started bot tracking")
+		if err != nil {
+			logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+			return
+		}
+
+	case content == "!stop_tracking":
+		stopTracking <- struct{}{}
+		_, err := s.ChannelMessageSend(consoleChannel.ID, "Stopped bot tracking")
+		if err != nil {
+			logger.WithError(err).Errorf("Unable to message to channel %v", m.ChannelID)
+			return
+		}
+
 	case content == "!shutdown":
 		ShutDownMessage(consoleChannel, s)
 		s.Close()
 		os.Exit(1)
-
 	}
 }
 
@@ -69,20 +113,21 @@ func StartUpMessage(channel *discordgo.Channel, s *discordgo.Session) {
 	if mediaPath != "" {
 		r, err := os.Open(mediaPath + introductionGifFile)
 		if err != nil {
-			log.Fatalf("Error opening %v, %v", mediaPath+introductionGifFile, err)
+			logger.WithError(err).Error("Could not open file")
+			return
 		}
 
 		formatedTime := botTools.CurrentTime()
 		_, err = s.ChannelFileSendWithMessage(channel.ID, "Mochi Bot is now up and running at : "+formatedTime, "Introduction.gif", r)
 		if err != nil {
-			log.Fatal("Error sending initial message")
+			logger.WithError(err).Errorf("Unable to send message to channel %v", channel.ID)
 		}
 
 	} else {
 		formatedTime := botTools.CurrentTime()
-		_, err = s.ChannelMessageSend(channel.ID, "Mochi Bot is now up and running at : "+formatedTime)
+		_, err := s.ChannelMessageSend(channel.ID, "Mochi Bot is now up and running at : "+formatedTime)
 		if err != nil {
-			log.Fatal("Error sending initial message")
+			logger.WithError(err).Errorf("Unable to send message to channel %v", channel.ID)
 		}
 
 	}
@@ -92,7 +137,8 @@ func ShutDownMessage(channel *discordgo.Channel, s *discordgo.Session) {
 	if mediaPath != "" {
 		r, err := os.Open(mediaPath + byeGifFile)
 		if err != nil {
-			log.Fatalf("Error opening %v, %v", mediaPath+introductionGifFile, err)
+			logger.WithError(err).Error("Could not open file")
+			return
 		}
 
 		formatedTime := botTools.CurrentTime()
@@ -103,7 +149,7 @@ func ShutDownMessage(channel *discordgo.Channel, s *discordgo.Session) {
 
 	} else {
 		formatedTime := botTools.CurrentTime()
-		_, err = s.ChannelMessageSend(channel.ID, "Mochi bot has shut down at: "+formatedTime)
+		_, err := s.ChannelMessageSend(channel.ID, "Mochi bot has shut down at: "+formatedTime)
 		if err != nil {
 			log.Fatal("Error sending initial message")
 
@@ -118,6 +164,7 @@ func helpMessage(channel *discordgo.Channel, s *discordgo.Session) string {
 	s.ChannelMessageSend(channel.ID, helpMessage)
 	return helpMessage
 }
+
 func printMap(m map[string]string) string {
 	var maxLenKey int
 	for k, _ := range m {

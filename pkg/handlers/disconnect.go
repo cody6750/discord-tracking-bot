@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
@@ -13,12 +12,14 @@ func Disconnect(s *discordgo.Session, m *discordgo.Disconnect) {
 	if mediaPath != "" {
 		r, err := os.Open(byeGifFile)
 		if err != nil {
-			log.Fatal("Could not open file")
+			logger.Error("Could not open file")
+			return
 		}
 		formattedTime := botTools.CurrentTime()
 		_, err = s.ChannelFileSendWithMessage(consoleChannel, "Mochi bot has shut down at : "+formattedTime, "Bye.gif", r)
 		if err != nil {
-			log.Printf("Error: %v", err)
+			logger.WithError(err).Errorf("unable to send message to channel: %v", consoleChannel)
+			return
 		}
 	}
 }

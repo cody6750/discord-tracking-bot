@@ -18,7 +18,8 @@ import (
 
 // channels
 type channels struct {
-	stopTracking chan struct{}
+	stopTracking  chan struct{}
+	startTracking chan struct{}
 }
 
 // TrackingBot ...
@@ -44,20 +45,24 @@ func NewTrackingBotWithOptions(option *options.Options) *TrackingBot {
 	bot.options = option
 	bot.logger = logrus.New()
 	bot.channels = &channels{
-		stopTracking: make(chan struct{}),
+		stopTracking:  make(chan struct{}),
+		startTracking: make(chan struct{}),
 	}
+	handlers.SetChannel("startTracking", bot.channels.startTracking)
+	handlers.SetChannel("stopTracking", bot.channels.startTracking)
 	bot.logger.SetFormatter(&logrus.TextFormatter{ForceColors: true, FullTimestamp: true})
 	return bot
 }
 
 func (t *TrackingBot) initBot() {
 	var err error
-	t.logger.Info("Discord bot initializing......")
+	t.logger.Info("Discord bot initializing")
+	handlers.SetStatus("Discord bot initializing")
 	t.getEnvVariables()
 
 	if !t.options.LocalRun {
-		t.initAWS(t.options.MaxRetries, t.options.Region)
-		t.options.DiscordToken, err = services.GetSecret(t.secretsSvc, t.options.DiscordTokenID)
+		t.initAWS(t.options.AWSMaxRetries, t.options.AWSRegion)
+		t.options.DiscordToken, err = services.GetSecret(t.secretsSvc, t.options.DiscordTokenAWSSecretName)
 		if err != nil {
 			t.logger.WithError(err).Fatalf("failed to get discord token secret from AWS")
 		}
@@ -97,13 +102,17 @@ func (t *TrackingBot) initBot() {
 //Run initializes and runs the discord bot
 func (t *TrackingBot) Run() {
 	t.initBot()
+	handlers.SetStatus("Idle")
 	functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Bot is now running.  Press CTRL-C to exit.")
 
 	go t.startTracking("tracking", t.options.TrackingConfigPath)
 
+	go t.monitoringChannelSignals()
+
 	sc := make(chan os.Signal, 1)
 	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
 	<-sc
+	handlers.SetStatus("Bot shutting down")
 	functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Bot has shut down")
 	t.discordSession.Close()
 }
@@ -111,10 +120,10 @@ func (t *TrackingBot) Run() {
 func (t *TrackingBot) startTracking(channelsToTrack, trackingConfigPath string) {
 	functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Starting to track channels")
 	handlers.SetStatus("Running, currently tracking channels")
-	defer handlers.SetStatus("Idle")
 	go func() {
-		t.TrackItemChannels(t.discordSession, functions.GetChannels(t.discordSession, channelsToTrack), trackingConfigPath)
+		t.TrackItemChannels(t.discordSession, functions.GetChannels(t.discordSession, channelsToTrack), trackingConfigPath, t.options.TrackingChannelsDelay)
 		t.channels.stopTracking <- struct{}{}
+		handlers.SetStatus("Idle")
 	}()
 
 	select {
@@ -122,6 +131,19 @@ func (t *TrackingBot) startTracking(channelsToTrack, trackingConfigPath string) 
 		functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Tracking has stopped")
 		return
 	}
+}
+
+func (t *TrackingBot) monitoringChannelSignals() {
+	for {
+		select {
+		case <-t.channels.startTracking:
+			go t.startTracking("tracking", t.options.TrackingConfigPath)
+		}
+	}
+}
+
+func (t *TrackingBot) StartTracking() {
+	t.channels.startTracking <- struct{}{}
 }
 
 func (t *TrackingBot) StopTracking() {

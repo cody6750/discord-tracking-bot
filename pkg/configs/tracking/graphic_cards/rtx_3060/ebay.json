@@ -25,7 +25,7 @@
                     "Attribute": "class",
                     "AttributeValue" : "s-item__price",
                     "FilterConfiguration": {
-                        "IsLessThan" : 550,
+                        "IsLessThan" : 590,
                         "IsGreaterThan" : 400,
                         "ConvertStringToNumber" : "true"
                     }                     

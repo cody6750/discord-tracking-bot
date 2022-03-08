@@ -31,7 +31,7 @@ type Response struct {
 }
 
 //TrackItemChannels ...
-func (t *TrackingBot) TrackItemChannels(s *discordgo.Session, channels []*discordgo.Channel, trackingConfigFilePath string) {
+func (t *TrackingBot) TrackItemChannels(s *discordgo.Session, channels []*discordgo.Channel, trackingConfigFilePath string, delay int) {
 	if len(channels) == 0 {
 		return
 	}
@@ -56,7 +56,7 @@ func (t *TrackingBot) TrackItemChannels(s *discordgo.Session, channels []*discor
 			s.ChannelMessageSend(t.discordMetricsChannel.ID, handlers.GenerateMetricsOutput(handlers.Metrics(TotalMetrics)))
 			return
 		}
-		time.Sleep(6 * time.Hour)
+		time.Sleep(time.Duration(int64(delay)) * time.Second)
 	}
 }
 
@@ -113,10 +113,8 @@ func (t *TrackingBot) trackItem(s *discordgo.Session, channel *discordgo.Channel
 	}
 
 	handlers.SetCurrentMetrics(scrapeResponse.Metrics)
-	// handlers.SetTotalMetrics(handlers.Metrics(scrapeResponse.Metrics))
 	s.ChannelMessageSend(t.discordMetricsChannel.ID, handlers.GenerateMetricsOutput(scrapeResponse.Metrics))
 	handlers.AppendMetrics(&TotalMetrics, &scrapeResponse.Metrics)
-	// appendMetrics(&TotalMetrics, &scrapeResponse.Metrics)
 	for _, response := range scrapeResponse.WebScraperResponses {
 		for _, item := range response.ExtractedItem {
 			if price, exist := item.ItemDetails["price"]; exist {
