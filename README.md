@@ -33,65 +33,51 @@
     <img src="media/cat.gif" alt="Logo" width="240" height="240">
   </a>
 
-<h3 align="center">Discord Tracking Bot</h3>
-
-  <p align="center">
-    Discord Tracking Bot is used to host a bot on discord that tracks specified items and notifies users on discord channels.
-  </p>
+<h1 align="center">Discord Tracking Bot</h1>
 </div>
 
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-
+## Table of Contents
+<ol>
+  <li>
+    <a href="#about-the-project">About The Project</a>
+    <ul>
+      <li><a href="#built-with">Built With</a></li>
+    </ul>
+  </li>
+  <li>
+    <a href="#getting-started">Getting Started</a>
+    <ul>
+      <li><a href="#prerequisites">Prerequisites</a></li>
+      <li><a href="#installation">Installation</a></li>
+    </ul>
+  </li>
+  <li><a href="#usage">Usage</a></li>
+  <li><a href="#roadmap">Roadmap</a></li>
+  <li><a href="#contributing">Contributing</a></li>
+  <li><a href="#license">License</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li><a href="#acknowledgments">Acknowledgments</a></li>
+</ol>
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+The Discord Tracking bot is a high-level discord tracking bot framework that was built out of frustration due to the supply and demand of the graphics card market. Written in Go, it is used to host a bot on discord that tracks specified items and notifies users on discord channels. It is designed to call upon the  [web crawler](https://example.com) via REST API calls and return that response in a formated structure to the designated discord channel.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 ### Built With
 
-* [Next.js](https://nextjs.org/)
-* [React.js](https://reactjs.org/)
-* [Vue.js](https://vuejs.org/)
-* [Angular](https://angular.io/)
-* [Svelte](https://svelte.dev/)
-* [Laravel](https://laravel.com)
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-
+* [Go](https://go.dev/)
+* [discordgo](https://github.com/bwmarrin/discordgo)
+* [Logrus](https://github.com/sirupsen/logrus)
+* [Docker](https://www.docker.com/)
+* [AWS](https://aws.amazon.com/)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
@@ -99,31 +85,29 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+This assumes you already have a working Go environment, if not please see
+[this page](https://golang.org/doc/install) first.
+
+This assumes you already have a working Discord bot, if not please see
+[this page](https://discord.com/developers/docs/intro) first.
+
+If you are deploying the container to AWS, please configure your AWS credentials.
+Please see [this page](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html) for assistance.
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. In your Discord developer portal, create an API token for the Discord bot. If you are using AWS, you are able to store the API token into secrets.
 2. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/cody6750/discord-tracking-bot
    ```
-3. Install NPM packages
+3. Get Go packages
    ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+	go get github.com/aws/aws-sdk-go
+	go get github.com/bwmarrin/discordgo 
+	go get github.com/sirupsen/logrus 
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -218,4 +202,4 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/cody-kieu-a6984a162/
-[product-screenshot]: media/screenshot.png
+[product-screenshot]: media/discord.png

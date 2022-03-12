@@ -60,8 +60,8 @@ type TrackingBot struct {
 
 // NewTrackingBot creates an instance of the tracking bot with the default settings.
 // Environment variables can be used to override the default settings.
-func NewTrackingBot() *TrackingBot {
-	return NewTrackingBotWithOptions(options.New())
+func NewTrackingBot(discordToken ...string) *TrackingBot {
+	return NewTrackingBotWithOptions(options.New(discordToken...))
 }
 
 // NewTrackingBotWithOptions creates an instance of the tracking bot with custom settings.

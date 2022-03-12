@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	trackingRTX := discordbot.NewTrackingBot()
+	trackingRTX := discordbot.NewTrackingBot("discordToken")
 	trackingRTX.Run()
 }

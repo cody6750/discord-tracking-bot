@@ -79,8 +79,8 @@ type Options struct {
 }
 
 //New returns Options with default values.
-func New() *Options {
-	return &Options{
+func New(discordToken ...string) *Options {
+	options := &Options{
 		LogToDiscord:              defaultLogToDiscord,
 		LocalRun:                  defaultLocalRun,
 		MetricsToDiscord:          defaultMetricsToDiscord,
@@ -94,4 +94,8 @@ func New() *Options {
 		TrackingConfigPath:        defaultTrackingConfigPath,
 		WebcrawlerHost:            defaultWebcrawlerHost,
 	}
+	if len(discordToken) > 0 {
+		options.DiscordToken = discordToken[0]
+	}
+	return options
 }
