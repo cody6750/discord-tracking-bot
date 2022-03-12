@@ -30,7 +30,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/cody6750/discord-tracking-bot">
-    <img src="media/cat.gif" alt="Logo" width="80" height="80">
+    <img src="media/cat.gif" alt="Logo" width="240" height="240">
   </a>
 
 <h3 align="center">Discord Tracking Bot</h3>
