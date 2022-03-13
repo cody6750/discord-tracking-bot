@@ -1,6 +1,7 @@
 package functions
 
 import (
+	"log"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -10,8 +11,14 @@ import (
 func GetChannels(s *discordgo.Session, channelType string) []*discordgo.Channel {
 	var getChannels []*discordgo.Channel
 	for _, guild := range s.State.Guilds {
-		channels, _ := s.GuildChannels(guild.ID)
+		channels, err := s.GuildChannels(guild.ID)
+		if err != nil {
+			log.Fatalf(err.Error())
+		}
 		for _, channel := range channels {
+			if channel == nil {
+				continue
+			}
 			if strings.Contains(strings.ToLower(channel.Name), channelType) {
 				getChannels = append(getChannels, channel)
 			}

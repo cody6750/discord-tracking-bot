@@ -99,7 +99,6 @@ func (t *TrackingBot) checkEnvVariables() {
 		t.logger.Fatalf("Discord token is not set, please set DISCORD_TOKEN environment variable or check AWS")
 	}
 	t.logger.Info("Successfully checked environment variables")
-
 }
 
 // getEnvBool converts string environment variables to booleans.

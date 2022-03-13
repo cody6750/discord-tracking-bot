@@ -66,8 +66,9 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Tracking Screen Shot][tracking-screenshot]](https://example.com)
 
-The Discord Tracking bot is a high-level discord tracking bot framework that was built out of frustration due to the supply and demand of the graphics card market. Written in Go, it is used to host a bot on discord that tracks specified items and notifies users on discord channels. It is designed to call upon the  [web crawler](https://example.com) via REST API calls and return that response in a formated structure to the designated discord channel.
+The Discord Tracking bot is a high-level discord tracking bot framework application that was built out of frustration due to the supply and demand of the graphics card market. Written in Go, it is used to host a bot on discord that tracks graphics cards and gaming console on any website and notifies users on discord channels when the item are in stock. Thought in this use case it is only tracking graphics cards and consoles, it can be used to track any item or extract data from any website. It is designed to call upon the  [web crawler](https://example.com) via REST API calls and return that response in a formated structure to the designated discord channel.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -90,11 +91,16 @@ The Discord Tracking bot is a high-level discord tracking bot framework that was
 This assumes you already have a working Go environment, if not please see
 [this page](https://golang.org/doc/install) first.
 
+This assumes you already have a working Docker environment, if not please see
+[this page](https://www.docker.com/get-started) first.
+
 This assumes you already have a working Discord bot, if not please see
 [this page](https://discord.com/developers/docs/intro) first.
 
 If you are deploying the container to AWS, please configure your AWS credentials.
 Please see [this page](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html) for assistance.
+
+The Discord Tracking Bot is designed to call upon the  [web crawler](https://example.com) via REST API calls and return that response in a formated structure to the designated discord channel. This assumes you already have a working webcrawler deployed. If not, please see [web crawler](https://example.com) for deployment instructions.
 
 ### Installation
 
@@ -117,7 +123,7 @@ Please see [this page](https://docs.aws.amazon.com/sdk-for-java/v1/developer-gui
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+The Discord Tracking bot was designed to be deployed on AWS as a Docker container, though it can be deployed locally by building and executing the go files or deploying the Docker container locally on your machine. This section will cover all 3 ways to do so.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
@@ -133,7 +139,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 - [ ] Feature 3
     - [ ] Nested Feature
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/cody6750/discord-tracking-bot/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -171,18 +177,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-* []()
-* []()
-* []()
+Project Link: [https://github.com/cody6750/discord-tracking-bot](https://github.com/cody6750/discord-tracking-bot)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -190,16 +185,17 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo_name.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/cody6750/discord-tracking-bot.svg?style=for-the-badge
 [contributors-url]: https://github.com/cody6750/discord-tracking-bot/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo_name.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/cody6750/discord-tracking-bot.svg?style=for-the-badge
 [forks-url]: https://github.com/cody6750/discord-tracking-bot/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo_name.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/cody6750/discord-tracking-bot.svg?style=for-the-badge
 [stars-url]:https://github.com/cody6750/discord-tracking-bot/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo_name.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/cody6750/discord-tracking-bot.svg?style=for-the-badge
 [issues-url]: https://github.com/cody6750/discord-tracking-bot/pulls
-[license-shield]: https://img.shields.io/github/license/github_username/repo_name.svg?style=for-the-badge
-[license-url]: https://github.com/github_username/repo_name/blob/master/LICENSE.txt
+[license-shield]: https://img.shields.io/github/license/cody6750/discord-tracking-bot.svg?style=for-the-badge
+[license-url]: https://github.com/cody6750/discord-tracking-bot/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/cody-kieu-a6984a162/
 [product-screenshot]: media/discord.png
+[tracking-screenshot1]: media/tracking.png
