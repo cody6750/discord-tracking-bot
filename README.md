@@ -194,7 +194,7 @@ go build -o app
 
 4. Build the go exectuable 
 ```sh
-go build -o app 
+GOOS=linux GOARCH=arm64 go build -o app 
 ```
 
 5. Build the Docker image using the Dockerfile. 
