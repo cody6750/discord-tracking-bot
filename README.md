@@ -229,7 +229,24 @@ Flags:
 
 
 
-<!-- ROADMAP -->
+## Environment Variables
+The Discord Tracking Bot uses environment variables to set configuration. Use Dockerfile or set through shell console.
+
+Environment Variable | Default Value | Description
+| :--- | ---: | :---:
+`AWS_REGION`  | us-east-1 | If `LOCAL_RUN` is set to `false`, this region is used to grab the AWS Secret from.
+`AWS_MAX_RETIRES`  | 5 | If `LOCAL_RUN` is set to `true . Maximum number of request to set up AWS session.
+`DISCORD_TOKEN_AWS_SECRET_NAME`  | discord/token | If `LOCAL_RUN` is set to `true . AWS Secret name to grab that contains Discord Token.
+`DISCORD_TOKEN`  | | Allows application to configure and connect to the Discord session.
+`LOCAL_RUN`  | false | Determines whether or not to create AWS session and grab AWS secret.
+`LOG_TO_DISCORD`  | true | Determines whether to send logs to Discord `log` channel.
+`MEDIA_PATH`  | /media/ | Path of media folder within running platform.
+`METRICS_TO_DISCORD`  | true | Determines whether to send metrics to Discord `metrics` channel.
+`TRACKING_CONFIG_PATH`  | /pkg/configs/tracking/ | Path of tracking configs used to call `webcrawler`.
+`TRACKING_CHANNELS_DELAY`  | 21600 | Used to determine tracking delay for all channels in seconds.
+`WEBCRAWLER_HOST`  | 5 | host name, used to send http request to `webcrawler`
+`WEBCRAWLER_PORT`  | 5 | host port, used to send http request to `webcrawler`
+
 ## Features
 
 * Sends metrics to metrics channel
