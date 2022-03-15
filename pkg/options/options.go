@@ -1,41 +1,41 @@
 package options
 
 const (
-	// Default value for AWSRegion. Overrideable via environment variables.
-	defaultAWSRegion = "us-east-1"
+	// DefaultAWSRegion default value for AWSRegion. Overrideable via environment variables.
+	DefaultAWSRegion = "us-east-1"
 
-	// Default value for AWSAWSMaxRetries. Overrideable via environment variables.
-	defaultAWSMaxRetries = 5
+	// DefaultAWSMaxRetries default value for AWSAWSMaxRetries. Overrideable via environment variables.
+	DefaultAWSMaxRetries = 5
 
-	// Default value for DiscordTokenAWSSecretName. Overrideable via environment variables.
-	defaultDiscordTokenAWSSecretName = "discord/token"
+	// DefaultDiscordTokenAWSSecretName default value for DiscordTokenAWSSecretName. Overrideable via environment variables.
+	DefaultDiscordTokenAWSSecretName = "discord/token"
 
-	// Default value for DiscordToken. Overrideable via environment variables.
-	defaultDiscordToken = ""
+	// DefaultDiscordToken default value for DiscordToken. Overrideable via environment variables.
+	DefaultDiscordToken = ""
 
-	// Default value for LocalRun. Overrideable via environment variables.
-	defaultLocalRun = false
+	// DefaultLocalRun default value for LocalRun. Overrideable via environment variables.
+	DefaultLocalRun = false
 
-	// Default value for LogToDiscord. Overridaeble via environment variables.
-	defaultLogToDiscord = true
+	// DefaultLogToDiscord default value for LogToDiscord. Overridaeble via environment variables.
+	DefaultLogToDiscord = true
 
-	// Default value for MediaPath. Overridaeble via environment variables.
-	defaultMediaPath = "media/"
+	// DefaultMediaPath default value for MediaPath. Overridaeble via environment variables.
+	DefaultMediaPath = "media/"
 
-	// Default value for MetricsToDiscord. Overridaeble via environment variables.
-	defaultMetricsToDiscord = true
+	// DefaultMetricsToDiscord default value for MetricsToDiscord. Overridaeble via environment variables.
+	DefaultMetricsToDiscord = true
 
-	// Default value for TrackingConfigPath. Overridaeble via environment variables.
-	defaultTrackingChannelsDelay = 21600
+	// DefaultTrackingChannelsDelay default value for TrackingConfigPath. Overridaeble via environment variables.
+	DefaultTrackingChannelsDelay = 21600
 
-	// Default value for TrackingConfigPath. Overridaeble via environment variables.
-	defaultTrackingConfigPath = "pkg/configs/tracking/"
+	// DefaultTrackingConfigPath default value for TrackingConfigPath. Overridaeble via environment variables.
+	DefaultTrackingConfigPath = "pkg/configs/tracking/"
 
-	// Default value for WebcrawlerHost. Overridaeble via environment variables.
-	defaultWebcrawlerHost = "localhost"
+	// DefaultWebcrawlerHost default value for WebcrawlerHost. Overridaeble via environment variables.
+	DefaultWebcrawlerHost = "localhost"
 
-	// Default value for WebcrawlerProt. Overridaeble via environment variables.
-	defaultWebcrawlerPort = 9090
+	// DefaultWebcrawlerPort default value for WebcrawlerProt. Overridaeble via environment variables.
+	DefaultWebcrawlerPort = 9090
 )
 
 //Options represents all avlaiable configurable options for the tracking bot
@@ -78,20 +78,24 @@ type Options struct {
 	WebcrawlerHost string
 }
 
-//New returns Options with default values.
-func New() *Options {
-	return &Options{
-		LogToDiscord:              defaultLogToDiscord,
-		LocalRun:                  defaultLocalRun,
-		MetricsToDiscord:          defaultMetricsToDiscord,
-		WebcrawlerPort:            defaultWebcrawlerPort,
-		TrackingChannelsDelay:     defaultTrackingChannelsDelay,
-		AWSRegion:                 defaultAWSRegion,
-		DiscordTokenAWSSecretName: defaultDiscordTokenAWSSecretName,
-		DiscordToken:              defaultDiscordToken,
-		AWSMaxRetries:             defaultAWSMaxRetries,
-		MediaPath:                 defaultMediaPath,
-		TrackingConfigPath:        defaultTrackingConfigPath,
-		WebcrawlerHost:            defaultWebcrawlerHost,
+//New returns Options with Default values.
+func New(discordToken ...string) *Options {
+	options := &Options{
+		LogToDiscord:              DefaultLogToDiscord,
+		LocalRun:                  DefaultLocalRun,
+		MetricsToDiscord:          DefaultMetricsToDiscord,
+		WebcrawlerPort:            DefaultWebcrawlerPort,
+		TrackingChannelsDelay:     DefaultTrackingChannelsDelay,
+		AWSRegion:                 DefaultAWSRegion,
+		DiscordTokenAWSSecretName: DefaultDiscordTokenAWSSecretName,
+		DiscordToken:              DefaultDiscordToken,
+		AWSMaxRetries:             DefaultAWSMaxRetries,
+		MediaPath:                 DefaultMediaPath,
+		TrackingConfigPath:        DefaultTrackingConfigPath,
+		WebcrawlerHost:            DefaultWebcrawlerHost,
 	}
+	if len(discordToken) > 0 {
+		options.DiscordToken = discordToken[0]
+	}
+	return options
 }

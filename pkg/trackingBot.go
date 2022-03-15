@@ -60,8 +60,8 @@ type TrackingBot struct {
 
 // NewTrackingBot creates an instance of the tracking bot with the default settings.
 // Environment variables can be used to override the default settings.
-func NewTrackingBot() *TrackingBot {
-	return NewTrackingBotWithOptions(options.New())
+func NewTrackingBot(discordToken ...string) *TrackingBot {
+	return NewTrackingBotWithOptions(options.New(discordToken...))
 }
 
 // NewTrackingBotWithOptions creates an instance of the tracking bot with custom settings.
@@ -74,6 +74,7 @@ func NewTrackingBotWithOptions(option *options.Options) *TrackingBot {
 		stopTracking:  make(chan struct{}),
 		startTracking: make(chan struct{}),
 	}
+	handlers.SetLogger(bot.logger)
 	handlers.SetChannel("startTracking", bot.channels.startTracking)
 	handlers.SetChannel("stopTracking", bot.channels.startTracking)
 	bot.logger.SetFormatter(&logrus.TextFormatter{ForceColors: true, FullTimestamp: true})
@@ -88,15 +89,14 @@ func (t *TrackingBot) initBot() {
 	t.logger.Info("Discord bot initializing")
 	handlers.SetStatus("Discord bot initializing")
 	t.getEnvVariables()
-
 	if !t.options.LocalRun {
+		t.logger.Info("LOCAL_RUN is set to false, getting Discord Token from AWS")
 		t.initAWS(t.options.AWSMaxRetries, t.options.AWSRegion)
 		t.options.DiscordToken, err = services.GetSecret(t.secretsSvc, t.options.DiscordTokenAWSSecretName)
 		if err != nil {
 			t.logger.WithError(err).Fatalf("failed to get discord token secret from AWS")
 		}
 	}
-
 	t.checkEnvVariables()
 
 	t.discordSession, err = discordgo.New("Bot " + t.options.DiscordToken)
@@ -104,7 +104,7 @@ func (t *TrackingBot) initBot() {
 		t.logger.WithError(err).Fatalf("failed to create discord session")
 	}
 
-	handlers.SetHandlerMediaPath(t.options.MediaPath)
+	go handlers.SetHandlerMediaPath(t.options.MediaPath)
 	t.discordSession.AddHandler(handlers.Ready)
 	t.discordSession.AddHandler(handlers.MessageCreate)
 	t.discordSession.AddHandler(handlers.Disconnect)
@@ -124,8 +124,8 @@ func (t *TrackingBot) initBot() {
 	if t.options.MetricsToDiscord {
 		t.discordMetricsChannel = functions.GetChannel(t.discordSession, "metrics")
 	}
-	functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Succesfully initialized bot")
 
+	functions.LogToDiscordAndStdOut(t.logger, t.discordSession, t.discordLogChannel, t.logger.Info, "Succesfully initialized bot")
 }
 
 // Run serves as the entrypoint to the tracking bot. It needs only to be called once per session.

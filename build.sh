@@ -6,9 +6,22 @@ build_docker() {
   docker build -t discordbot .
 }
 
+build_docker_and_run() {
+  docker rm -vf $(docker ps -aq)
+  docker rmi -f $(docker images -aq)
+  build_linux
+  docker rmi discordbot
+  docker build -t discordbot .
+  ACCESS_KEY=$(cat  ~/.aws/credentials | grep aws_access_key_id | cut -d "=" -f2)
+  echo $ACCESS_KEY
+  SECRET_KEY=$(cat  ~/.aws/credentials | grep aws_secret_access_key | cut -d "=" -f2)
+  echo $SECRET_KEY
+  docker run -e AWS_ACCESS_KEY_ID=$ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$SECRET_KEY discordbot  
+}
+
 build_windows() {
-  rm app
-  GOOS=windows go build 
+  rm app.exe
+  GOOS=windows go build -o app.exe
 }
 
 build_linux() {
@@ -70,7 +83,6 @@ init_ec2(){
 }
 
 echo "Getting flags"
-S3_BUCKET="S"
 while getopts :a:r:i:s:b: opt; do
   case $opt in
     a)
@@ -95,9 +107,11 @@ while getopts :a:r:i:s:b: opt; do
 done
 echo "Successfully got all flags"
 
-echo ${S3_BUCKET}
 echo "Starting build step: $BUILD_STEP"
 case $BUILD_STEP in
+  r)
+    build_docker_and_run
+    ;;
   build_docker)
     build_docker
     ;;
