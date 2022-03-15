@@ -175,7 +175,7 @@ go build -o app
 ./app
 ```
 
-[![Go build locally][go-build-locally-screenshot]]
+![Go build locally][go-build-locally-screenshot]
 
 
 ### Build locally with Docker
@@ -222,7 +222,7 @@ Flags:
   docker logs discordbot
 ```
 
-[![Go build docker locally][go-build-docker-locally-screenshot]]
+![Go build docker locally][go-build-docker-locally-screenshot]
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -232,12 +232,15 @@ Flags:
 <!-- ROADMAP -->
 ## Features
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
+Sends metrics to metrics channel
+![metrics][metrics]
 
-See the [open issues](https://github.com/cody6750/discord-tracking-bot/issues) for a full list of proposed features (and known issues).
+Logs to both discord and stdout
+![logs][logs]
+
+Ability to control bot through discord `bot_console` channel
+![bot-console][bot-console]
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -273,7 +276,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
+Cody Kieu - cody6750@gmail.com
 
 Project Link: [https://github.com/cody6750/discord-tracking-bot](https://github.com/cody6750/discord-tracking-bot)
 
@@ -298,6 +301,10 @@ Project Link: [https://github.com/cody6750/discord-tracking-bot](https://github.
 [product-screenshot]: media/discord.png
 [tracking-screenshot]: media/tracking.png
 [go-build-locally-screenshot]: media/go_build_locally.png
+[go-build-docker-locally-screenshot]: media/go_build_docker_locally.png
 [admin-channels]: media/admin_channels.png
 [tracking-channels]: media/tracking_channels.png
 [tracking-configs]: media/tracking_configs.png
+[metrics]: media/metrics.png
+[bot-console]: media/bot_console.png
+[logs]: media/logs.png
