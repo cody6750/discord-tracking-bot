@@ -55,11 +55,10 @@
     </ul>
   </li>
   <li><a href="#usage">Usage</a></li>
-  <li><a href="#roadmap">Roadmap</a></li>
+  <li><a href="#features">Roadmap</a></li>
   <li><a href="#contributing">Contributing</a></li>
   <li><a href="#license">License</a></li>
   <li><a href="#contact">Contact</a></li>
-  <li><a href="#acknowledgments">Acknowledgments</a></li>
 </ol>
 
 <!-- ABOUT THE PROJECT -->
@@ -232,13 +231,13 @@ Flags:
 <!-- ROADMAP -->
 ## Features
 
-Sends metrics to metrics channel
+* Sends metrics to metrics channel
 ![metrics][metrics]
 
-Logs to both discord and stdout
+* Logs to both discord and stdout
 ![logs][logs]
 
-Ability to control bot through discord `bot_console` channel
+* Ability to control bot through discord `bot_console` channel. Please use `!help` to see all available commands. 
 ![bot-console][bot-console]
 
 
@@ -276,7 +275,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Cody Kieu - cody6750@gmail.com
+Cody Kieu - cody6750@gmail.com - https://www.linkedin.com/in/cody-kieu-a6984a162/a
 
 Project Link: [https://github.com/cody6750/discord-tracking-bot](https://github.com/cody6750/discord-tracking-bot)
 
