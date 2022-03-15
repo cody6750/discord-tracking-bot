@@ -131,13 +131,13 @@ The Discord Tracking bot was designed to be deployed on AWS EC2 as a Docker cont
 2. Set up `logs` channel. Logs will be sent to this channel.
 3. Set up `bot_console` channel. Bot will respond to commands in this channel.
 
-![Admin channels][admin_channels]
+![Admin channels][admin-channels]
 
 4. Set up category. Naming must be in this convention `tracking_<CATEOGORY>`. For example `tracking_graphics_cards` or `tracking_consoles`. The bot uses the category to determine what to track in which channels. The category `graphics cards` or `consoles` is used in `/pkg/configs/<CATEGORY>` to determine which directory to use.
 5. Set up channels. Naming must be in this convention `tracking_<ITEM_NAME>`. The item name is used to in the `/pkg/configs/<CATEGORY>/<ITEM_NAME>` to choose the config file.
 
-![tracking_channels][tracking_channels]
-![tracking_configs][tracking_configs]
+![Tracking channels][tracking-channels]
+![Tracking configs][tracking-configs]
 
 
 ### Set AWS Secret 
