@@ -65,10 +65,10 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-[![Tracking Screen Shot][tracking-screenshot]](https://example.com)
+![Product Name Screen Shot][product-screenshot]
+![Tracking Screen Shot][tracking-screenshot]
 
-The Discord Tracking bot is a high-level discord tracking bot framework application that was built out of frustration due to the supply and demand of the graphics card market. Written in Go, it is used to host a bot on discord that tracks graphics cards and gaming console on any website and notifies users on discord channels when the item are in stock. Thought in this use case it is only tracking graphics cards and consoles, it can be used to track any item or extract data from any website. It is designed to call upon the  [web crawler](https://example.com) via REST API calls and return that response in a formated structure to the designated discord channel.
+The Discord Tracking bot is a high-level discord tracking bot framework application that was built out of frustration due to the supply and demand of the graphics card market. Written in Go, it is used to host a bot on discord that tracks graphics cards and gaming console on any website and notifies users on discord channels when the items are in stock. It can be used to track any item or extract data from any website. It is designed to call upon the  [web crawler](https://github.com/cody6750/web-crawler) via REST API calls and return that response in a formated structure to the designated discord channel.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -88,27 +88,29 @@ The Discord Tracking bot is a high-level discord tracking bot framework applicat
 
 ### Prerequisites
 
-This assumes you already have a working Go environment, if not please see
-[this page](https://golang.org/doc/install) first.
+1. This assumes you already have a working Go environment, if not   please see
+  [this page](https://golang.org/doc/install) first.
 
-This assumes you already have a working Docker environment, if not please see
-[this page](https://www.docker.com/get-started) first.
+2. This assumes you already have a working Docker environment, if not please see
+  [this page](https://www.docker.com/get-started) first.
 
-This assumes you already have a working Discord bot, if not please see
+3. This assumes you already have a working Discord bot, if not please see
 [this page](https://discord.com/developers/docs/intro) first.
 
-If you are deploying the container to AWS, please configure your AWS credentials.
-Please see [this page](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html) for assistance.
+4. If you are deploying the container to AWS, please configure your AWS credentials.
+  Please see [this page](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html) for assistance.
 
-The Discord Tracking Bot is designed to call upon the  [web crawler](https://example.com) via REST API calls and return that response in a formated structure to the designated discord channel. This assumes you already have a working webcrawler deployed. If not, please see [web crawler](https://example.com) for deployment instructions.
+5. The Discord Tracking Bot is designed to call upon the  [web crawler](https://github.com/cody6750/web-crawler) via REST API calls and return that       response in a formated structure to the designated discord channel. This assumes you already have a working webcrawler deployed. If not, please see [web  crawler](https://github.com/cody6750/web-crawler) for deployment instructions.
 
 ### Installation
 
-1. In your Discord developer portal, create an API token for the Discord bot. If you are using AWS, you are able to store the API token into secrets.
+1. In your Discord developer portal, create an API token for the Discord bot. If you are using AWS, you are able to store the API token into AWS secrets.
+
 2. Clone the repo
    ```sh
    git clone https://github.com/cody6750/discord-tracking-bot
    ```
+
 3. Get Go packages
    ```sh
 	go get github.com/aws/aws-sdk-go
@@ -118,21 +120,117 @@ The Discord Tracking Bot is designed to call upon the  [web crawler](https://exa
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-The Discord Tracking bot was designed to be deployed on AWS as a Docker container, though it can be deployed locally by building and executing the go files or deploying the Docker container locally on your machine. This section will cover all 3 ways to do so.
+The Discord Tracking bot was designed to be deployed on AWS EC2 as a Docker container, though it can be deployed locally by building and executing the go files or deploying the Docker container locally on your machine. This section will cover only 2 of the ways to do so. Please note that these instructions are for Mac OS using a bash terminal. 
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### Set up Discord server
+
+1. Set up `metrics` channel. Metrics will be sent to this channel.
+2. Set up `logs` channel. Logs will be sent to this channel.
+3. Set up `bot_console` channel. Bot will respond to commands in this channel.
+
+![Admin channels][admin_channels]
+
+4. Set up category. Naming must be in this convention `tracking_<CATEOGORY>`. For example `tracking_graphics_cards` or `tracking_consoles`. The bot uses the category to determine what to track in which channels. The category `graphics cards` or `consoles` is used in `/pkg/configs/<CATEGORY>` to determine which directory to use.
+5. Set up channels. Naming must be in this convention `tracking_<ITEM_NAME>`. The item name is used to in the `/pkg/configs/<CATEGORY>/<ITEM_NAME>` to choose the config file.
+
+![tracking_channels][tracking_channels]
+![tracking_configs][tracking_configs]
+
+
+### Set AWS Secret 
+If you are planning on storing your Discord Api token in AWS secrets, please follow these instructions so that the bot can grab them. If not, please continue to the next section of the guide.
+1. Create AWS Secret with your Discord Api token.
+
+2. Set `LOCAL_RUN` as `false`
+  ```sh
+  set LOCAL_RUN=false
+  ```
+
+3. Set `DISCORD_TOKEN_AWS_SECRET_NAME` as the name of your AWS secret
+  ```sh
+  set DISCORD_TOKEN_AWS_SECRET_NAME=<SECRET_NAME>
+  ```
+
+
+### Build locally without Docker
+
+1. Navigate to the `discord-tracking-bot` repo location.
+2. Set `LOCAL_RUN` environment variable to `true`
+  ```sh
+  set LOCAL_RUN=true
+  ```
+3. Set `DISCORD_TOKEN` environment variable to your Discord api token.
+  ```sh
+  set DISCORD_TOKEN=<YOUR_DISCORD_TOKEN>
+  ```
+4. Navigate to the main directory, build the go exectuable 
+```sh
+go build -o app 
+```
+5. Run the go exectuable
+```sh
+./app
+```
+
+[![Go build locally][go-build-locally-screenshot]]
+
+
+### Build locally with Docker
+
+1. Navigate to the `discord-tracking-bot` repo location.
+
+2. Set `LOCAL_RUN` environment variable to `true` in `discord-trackingbot/Dockerfile`
+  ```sh
+  ENV LOCAL_RUN="false"
+  ```
+
+3. Set `DISCORD_TOKEN` environment variable to your Discord api token in `discord-trackingbot/Dockerfile`
+  ```sh
+  ENV DISCORD_TOKEN=<YOUR_DISCORD_TOKEN>
+  ```
+
+4. Build the go exectuable 
+```sh
+go build -o app 
+```
+
+5. Build the Docker image using the Dockerfile. 
+```sh
+docker build -t discordbot .
+```
+
+6. Run the Docker bot.
+Flags:
+- `-d` OPTIONAL. Runs the container in detached mode.
+- `-e` OPTIONAL. Sets environment variables.
+- `-v` REQUIRED. Mounts volume to Docker container. Used to obtain configs and media from local machine.
+- `--name` OPTIONAL. Sets docker container name.
+```sh
+  docker run -d -e LOCAL_RUN=${LOCAL_RUN} -e DISCORD_TOKEN=${DISCORD_TOKEN} -v /Users/cody.kieu/github/discord-tracking-bot/pkg:/pkg -v /Users/cody.kieu/github/discord-tracking-bot/media:/media --name discordbot discordbot
+```
+
+7. Check for docker container
+```sh
+  docker ps -a
+```
+
+8. Check docker logs
+```sh
+  docker logs discordbot
+```
+
+[![Go build docker locally][go-build-docker-locally-screenshot]]
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
 <!-- ROADMAP -->
-## Roadmap
+## Features
 
 - [ ] Feature 1
 - [ ] Feature 2
@@ -198,4 +296,8 @@ Project Link: [https://github.com/cody6750/discord-tracking-bot](https://github.
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/cody-kieu-a6984a162/
 [product-screenshot]: media/discord.png
-[tracking-screenshot1]: media/tracking.png
+[tracking-screenshot]: media/tracking.png
+[go-build-locally-screenshot]: media/go_build_locally.png
+[admin-channels]: media/admin_channels.png
+[tracking-channels]: media/tracking_channels.png
+[tracking-configs]: media/tracking_configs.png

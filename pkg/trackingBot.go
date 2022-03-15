@@ -90,6 +90,7 @@ func (t *TrackingBot) initBot() {
 	handlers.SetStatus("Discord bot initializing")
 	t.getEnvVariables()
 	if !t.options.LocalRun {
+		t.logger.Info("LOCAL_RUN is set to false, getting Discord Token from AWS")
 		t.initAWS(t.options.AWSMaxRetries, t.options.AWSRegion)
 		t.options.DiscordToken, err = services.GetSecret(t.secretsSvc, t.options.DiscordTokenAWSSecretName)
 		if err != nil {

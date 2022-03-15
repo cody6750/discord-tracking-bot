@@ -14,5 +14,6 @@ ENV TRACKING_CHANNELS_DELAY="21600"
 ENV WEBCRAWLER_HOST="webcrawler"
 ENV WEBCRAWLER_PORT="9090"
 COPY app .
-
+CMD ["sleep 9999"] 
 CMD ["./app"]
+# docker run -e LOCAL_RUN=${LOCAL_RUN} -e DISCORD_TOKEN=${DISCORD_TOKEN} -v /Users/cody.kieu/github/discord-tracking-bot/pkg:/pkg -v /Users/cody.kieu/github/discord-tracking-bot/media:/media --name discordbot discordbot
