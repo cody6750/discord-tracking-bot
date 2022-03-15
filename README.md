@@ -232,13 +232,13 @@ Flags:
 <!-- ROADMAP -->
 ## Features
 
-Sends metrics to metrics channel
+* Sends metrics to metrics channel
 ![metrics][metrics]
 
-Logs to both discord and stdout
+* Logs to both discord and stdout
 ![logs][logs]
 
-Ability to control bot through discord `bot_console` channel
+* Ability to control bot through discord `bot_console` channel
 ![bot-console][bot-console]
 
 
