@@ -13,9 +13,7 @@ build_docker_and_run() {
   docker rmi discordbot
   docker build -t discordbot .
   ACCESS_KEY=$(cat  ~/.aws/credentials | grep aws_access_key_id | cut -d "=" -f2)
-  echo $ACCESS_KEY
   SECRET_KEY=$(cat  ~/.aws/credentials | grep aws_secret_access_key | cut -d "=" -f2)
-  echo $SECRET_KEY
   docker run -e AWS_ACCESS_KEY_ID=$ACCESS_KEY -e AWS_SECRET_ACCESS_KEY=$SECRET_KEY discordbot  
 }
 
