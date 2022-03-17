@@ -134,10 +134,11 @@ The Discord Tracking bot was designed to be deployed on AWS EC2 as a Docker cont
 ![Admin channels][admin-channels]
 
 4. Set up category. Naming must be in this convention `tracking_<CATEOGORY>`. For example `tracking_graphics_cards` or `tracking_consoles`. The bot uses the category to determine what to track in which channels. The category `graphics cards` or `consoles` is used in `/pkg/configs/<CATEGORY>` to determine which directory to use.
-5. Set up channels. Naming must be in this convention `tracking_<ITEM_NAME>`. The item name is used to in the `/pkg/configs/<CATEGORY>/<ITEM_NAME>` to choose the config file.
+5. Set up channels. Naming must be in this convention `tracking_<ITEM_NAME>`. The item name is used to in the `/pkg/configs/<CATEGORY>/<ITEM_NAME>` to choose the config file. The config file contains the payload to send to the webcrawler bot which returns the response of extracted items which the discord tracking bot processes and displays. If you are unfamiliar with the config file and the webcrawler bot, please visit [web  crawler](https://github.com/cody6750/web-crawler) for more details.
 
 ![Tracking channels][tracking-channels]
 ![Tracking configs][tracking-configs]
+
 
 
 ### Set AWS Secret 
